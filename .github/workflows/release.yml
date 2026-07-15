@@ -1,0 +1,32 @@
+name: Release theme
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Verify release files and version
+        shell: bash
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          test -f manifest.json
+          test -f theme.css
+          MANIFEST_VERSION="$(node -p "require('./manifest.json').version")"
+          test "$MANIFEST_VERSION" = "$RELEASE_TAG"
+
+      - name: Attach theme files to release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          gh release upload "$RELEASE_TAG" manifest.json theme.css --clobber

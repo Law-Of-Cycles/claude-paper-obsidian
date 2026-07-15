@@ -1,0 +1,44 @@
+name: Bug report
+description: Report a visual or compatibility problem in Claude Paper.
+title: "[Bug] "
+labels: [bug]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What happened?
+      description: Describe the visual problem and where it appears.
+    validations:
+      required: true
+  - type: input
+    id: obsidian-version
+    attributes:
+      label: Obsidian version
+      placeholder: 1.12.0
+    validations:
+      required: true
+  - type: dropdown
+    id: mode
+    attributes:
+      label: Color mode
+      options:
+        - Light
+        - Dark
+        - Both
+    validations:
+      required: true
+  - type: input
+    id: platform
+    attributes:
+      label: Operating system
+      placeholder: Windows 11
+    validations:
+      required: true
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: Screenshot and reproduction steps
+      description: Drag in a screenshot and list the shortest steps that reproduce the issue.
+    validations:
+      required: true
+

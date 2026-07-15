@@ -1,0 +1,58 @@
+name: Validate theme
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Validate JSON and required files
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require("fs");
+
+          const required = [
+            "README.md",
+            "LICENSE",
+            "manifest.json",
+            "theme.css",
+            "screenshot.png",
+          ];
+          for (const file of required) {
+            if (!fs.existsSync(file)) throw new Error(`Missing ${file}`);
+          }
+
+          const manifest = JSON.parse(fs.readFileSync("manifest.json", "utf8"));
+          const submission = JSON.parse(fs.readFileSync("submission-entry.json", "utf8"));
+          const versions = JSON.parse(fs.readFileSync("versions.json", "utf8"));
+
+          if (manifest.name !== "Claude Paper") throw new Error("Unexpected theme name");
+          if (manifest.author !== "Law-Of-Cycles") throw new Error("Unexpected author");
+          if (!/^\d+\.\d+\.\d+$/.test(manifest.version)) throw new Error("Version must use SemVer");
+          if (submission.name !== manifest.name || submission.author !== manifest.author) {
+            throw new Error("Submission metadata does not match manifest.json");
+          }
+          if (versions[manifest.version] !== manifest.minAppVersion) {
+            throw new Error("versions.json does not match manifest.json");
+          }
+
+          const png = fs.readFileSync("screenshot.png");
+          if (png.toString("ascii", 1, 4) !== "PNG") throw new Error("screenshot.png is not PNG");
+          if (png.readUInt32BE(16) !== 512 || png.readUInt32BE(20) !== 288) {
+            throw new Error("screenshot.png must be 512 by 288 pixels");
+          }
+          NODE
+
+      - name: Check CSS formatting and syntax
+        run: npx --yes prettier@3.6.2 --check theme.css
+
