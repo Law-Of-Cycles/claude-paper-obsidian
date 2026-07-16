@@ -1,6 +1,6 @@
 # Claude Paper
 
-An unofficial Obsidian theme inspired by Claude and Anthropic's warm, thoughtful visual language. It combines clay accents, paper-like surfaces, editorial body text, restrained interface typography, and matched light and dark modes.
+An unofficial Obsidian theme inspired by Claude and Anthropic's warm, thoughtful visual language. It combines clay accents, quiet paper-like surfaces, unified bilingual serif typography, precise monospaced code, and matched light and dark modes.
 
 > Claude Paper is an independent community project by Law-Of-Cycles. It is not affiliated with, endorsed by, or sponsored by Anthropic. Claude and Anthropic are trademarks of Anthropic PBC. No Anthropic artwork or commercial font files are included.
 
@@ -18,26 +18,27 @@ An unofficial Obsidian theme inspired by Claude and Anthropic's warm, thoughtful
 
 ## Highlights
 
-- A complete English, CJK, and code font strategy with sensible Windows fallbacks
+- Source Han Serif SC Variable across the interface, headings, editor, and reading view
+- SF Mono across every inline and fenced code surface
+- Resilient aliases for the `SourceHanSerifSC-VF` filename and registered family names
 - Six clearly differentiated heading levels in Reading View and Live Preview
-- Refined bold, real English italics, highlights, links, tags, quotes, lists, tasks, tables, callouts, footnotes, and properties
+- Calm bold, italics, highlights, links, tags, quotes, lists, tasks, tables, callouts, footnotes, and properties
 - Warm light mode and purpose-built dark mode using the same visual hierarchy
-- Polished tabs, navigation, menus, search, status bar, embeds, and code blocks
-- Responsive small-screen layout, print rules, and reduced-motion support
+- Polished tabs, navigation, controls, settings, search, graph, Canvas, embeds, and code blocks
+- Keyboard focus, increased-contrast, reduced-motion, small-screen, and print support
 - Pure CSS with no telemetry, network requests, scripts, or bundled font files
 
 ## Typography
 
-Anthropic's identity work uses Styrene with Tiempos. Those are commercial typefaces, so this project only detects them when they are already installed. The included fallback stacks make the theme look intentional without them.
+Claude Paper intentionally uses the two locally installed fonts requested for this project. Regular interface and document text stay in one bilingual family, which avoids visible font changes between Chinese and English. Code stays monospaced and visually separate.
 
-| Role | Preferred order on Windows |
+| Role | Preferred order |
 | --- | --- |
-| Interface and headings | Styrene, Segoe UI Variable, Segoe UI, Source Han Serif |
-| English body text | Tiempos Text, Source Serif 4, Georgia, Times New Roman |
-| Chinese body text | Source Han Serif, 思源宋体, Microsoft YaHei |
-| Code | SF Mono, Cascadia Mono, Consolas, Source Han Serif |
+| Interface, headings, and body | `SourceHanSerifSC-VF` aliases, Source Han Serif SC, Source Han Serif, 思源宋体 |
+| Code | SF Mono, SFMono-Regular, Cascadia Mono, Cascadia Code, Consolas |
+| True English italic fallback | Source Serif 4, Source Serif Pro, Georgia, Times New Roman |
 
-For the best free bilingual setup, install **Source Serif 4**, **Source Han Serif**, and a mono font. Your existing **Source Han Serif + SF Mono** installation already covers Chinese and code; Georgia or Source Serif 4 supplies proper English italic faces. See [Font strategy](docs/FONTS.md) for details and download links.
+The theme sets `--font-interface-theme`, `--font-text-theme`, and `--font-monospace-theme`, so font choices made in Obsidian's Appearance settings still take priority. No font files are bundled or downloaded. See [Font strategy](docs/FONTS.md) for the exact aliases and troubleshooting.
 
 ## Install in Obsidian
 
@@ -46,6 +47,8 @@ For the best free bilingual setup, install **Source Serif 4**, **Source Han Seri
 1. Extract the project ZIP.
 2. Double-click `install.cmd`.
 3. Select your vault folder when prompted, then choose **Claude Paper** in Obsidian under **Settings → Appearance → Themes**.
+
+The completion dialog also reports whether Windows detected Source Han Serif SC and SF Mono.
 
 You can also run:
 
@@ -65,7 +68,7 @@ Restart Obsidian or use **Reload app without saving**, then select **Claude Pape
 
 ## Publish to the Obsidian community directory
 
-Double-click `publish.cmd`. The Windows publishing assistant creates the GitHub repository under `Law-Of-Cycles`, pushes the project, creates release `1.0.0`, forks `obsidianmd/obsidian-releases`, adds the directory entry, and opens the review pull request.
+Double-click `publish.cmd`. The Windows publishing assistant reads the current version from `manifest.json`, pushes the project, creates or refreshes the matching release, and opens the Obsidian community review pull request when needed.
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\publish.ps1
@@ -79,12 +82,9 @@ The main editable values are at the top of `theme.css`:
 
 ```css
 :root {
-  --claude-paper-font-ui: ...;
-  --claude-paper-font-heading: ...;
-  --claude-paper-font-text: ...;
+  --claude-paper-font-serif: ...;
   --claude-paper-font-code: ...;
-  --claude-paper-accent: #da7756;
-  --claude-paper-content-width: 820px;
+  --claude-paper-content-width: 780px;
 }
 ```
 

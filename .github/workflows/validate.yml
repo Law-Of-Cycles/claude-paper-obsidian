@@ -46,6 +46,25 @@ jobs:
             throw new Error("versions.json does not match manifest.json");
           }
 
+          const css = fs.readFileSync("theme.css", "utf8");
+          const requiredFontTokens = [
+            "SourceHanSerifSC-VF",
+            "Source Han Serif SC",
+            "SF Mono",
+            "--font-interface-theme",
+            "--font-text-theme",
+            "--font-monospace-theme",
+          ];
+          for (const token of requiredFontTokens) {
+            if (!css.includes(token)) throw new Error(`Missing CSS font token: ${token}`);
+          }
+          if (/@import\b|url\(\s*["']?https?:/i.test(css)) {
+            throw new Error("Remote CSS assets are not allowed");
+          }
+          if (/!important\b/.test(css)) {
+            throw new Error("Avoid !important in theme CSS");
+          }
+
           const png = fs.readFileSync("screenshot.png");
           if (png.toString("ascii", 1, 4) !== "PNG") throw new Error("screenshot.png is not PNG");
           if (png.readUInt32BE(16) !== 512 || png.readUInt32BE(20) !== 288) {
@@ -55,4 +74,3 @@ jobs:
 
       - name: Check CSS formatting and syntax
         run: npx --yes prettier@3.6.2 --check theme.css
-

@@ -1,45 +1,42 @@
 # Claude Paper style guide
 
-Claude Paper starts from the original appearance values supplied for this project and develops them into a complete Obsidian system.
+Claude Paper translates Claude's warm, quiet interface language into Obsidian while keeping the theme practical for long bilingual notes.
 
 ## Core palette
 
 | Token | Light | Dark | Purpose |
 | --- | --- | --- | --- |
-| Accent | `#da7756` | `#e59a73` | Links, active states, H2 rule, checkboxes |
-| Ink | `#1d1b16` | `#e9e3d8` | Main text |
-| Surface | `#f5f3ee` | `#1c1916` | Editor background |
-| Raised paper | `#fbfaf7` | `#24201c` | Cards, menus, callouts |
-| Divider | `#d9d1c6` | `#3b332d` | Borders and hierarchy |
-| Added | `#00c853` | adjusted by Obsidian syntax variables | Diff additions |
-| Removed | `#ff5f38` | adjusted by Obsidian syntax variables | Diff removals |
+| Accent | `#d97757` | `#e38b6b` | Selection, active states, checks, structural emphasis |
+| Ink | `#141413` | `#faf9f5` | Primary text |
+| Secondary ink | `#3d3d3a` | `#c2c0b6` | Supporting text |
+| Editor surface | `#faf9f5` | `#30302e` | Editing and reading background |
+| Sidebar surface | `#f5f4ed` | `#262624` | Navigation and secondary panes |
+| Raised surface | `#ffffff` | `#383835` | Menus, dialogs, and cards |
+| Code surface | `#f1efe8` | `#242422` | Inline and fenced code |
 
-The dark palette is designed independently for contrast and visual weight. It is not a filter applied to the light palette.
+Borders use translucent ink instead of a separate opaque gray. This keeps the hierarchy consistent as surfaces change.
 
-## Markdown hierarchy
+## Typography
 
-- **Inline title and H1:** display face, strong weight, fine divider
-- **H2:** compact display face with a clay left rule
-- **H3:** quieter display heading for sections within sections
-- **H4:** accent color for compact labels
-- **H5 and H6:** uppercase, increased tracking, progressively quieter color
-- **Bold:** weight plus a soft clay underline so it remains visible in dense Chinese text
-- **Italic:** true Latin italic where available, accent tint, and restrained underline
-- **Highlight:** marker-like lower-half fill
-- **Quote:** clay rule with a soft tinted panel
+- Interface, headings, editing, and reading use Source Han Serif SC Variable.
+- Code and Markdown formatting marks use SF Mono.
+- Body text is `17px` with a `1.72` line height and a `780px` readable width.
+- Heading levels use a restrained size and weight ladder without forced uppercase, wide tracking, or decorative underlines that disturb Chinese text.
+- Bold relies on weight. Italic relies on a real Latin italic fallback where available. Highlight uses a quiet full-glyph wash.
+- CJK line breaking is strict, and supported Electron versions receive automatic spacing between Chinese and Latin runs.
 
-## Layout
+## Interface language
 
-- Reading width: `820px`
-- Main text size: `17px`, reduced to `16px` below `700px`
-- Body line height: `1.82`
-- Rounded corners: `6px`, `10px`, and `14px`
-- Motion follows the operating system's reduced-motion preference
+- Light surfaces follow the public Claude token family of `#faf9f5`, `#f5f4ed`, and `#141413`.
+- Dark surfaces follow `#30302e`, `#262624`, and `#141413`, with softened warm text.
+- Corners use `4px`, `6px`, `8px`, and `12px` radii.
+- Active navigation uses a warm tint and text color. Active tabs add a narrow clay indicator.
+- Shadows remain short and low contrast. Borders carry most of the structure.
 
-## Accessibility decisions
+## Compatibility and accessibility
 
-- Light and dark palettes keep text and controls visually separated
-- Color is reinforced by borders, underlines, weight, or shape
-- Focus and selection use the same accent family consistently
-- Code ligatures are disabled to preserve literal character recognition
-- Print mode removes dark surfaces and unnecessary workspace chrome
+- Theme-level font variables preserve Obsidian Appearance overrides.
+- Live Preview heading rhythm uses padding instead of vertical margins.
+- The CSS avoids remote assets, `@import`, `:has()`, and `!important`.
+- Keyboard focus, increased contrast, reduced motion, forced colors, small screens, and print are handled explicitly.
+- Code ligatures are disabled to preserve literal character recognition.

@@ -8,11 +8,12 @@ $Owner = "Law-Of-Cycles"
 $Repository = "claude-paper-obsidian"
 $FullRepository = "$Owner/$Repository"
 $ThemeName = "Claude Paper"
-$Version = "1.0.0"
 $ReviewRepository = "obsidianmd/obsidian-releases"
 $ReviewFork = "$Owner/obsidian-releases"
 $ReviewBranch = "add-theme-claude-paper"
 $ProjectRoot = $PSScriptRoot
+$Manifest = Get-Content -LiteralPath (Join-Path $ProjectRoot "manifest.json") -Raw | ConvertFrom-Json
+$Version = [string]$Manifest.version
 
 function Refresh-ProcessPath {
   $machinePath = [Environment]::GetEnvironmentVariable("Path", "Machine")
@@ -137,7 +138,7 @@ try {
   & gh release view $Version --repo $FullRepository *> $null
   if ($LASTEXITCODE -ne 0) {
     Write-Host "Creating GitHub release $Version..." -ForegroundColor Cyan
-    Invoke-Checked gh release create $Version manifest.json theme.css --repo $FullRepository --title $Version --notes "Initial public release of Claude Paper. Includes matched light and dark modes, bilingual typography, and complete Markdown styling."
+    Invoke-Checked gh release create $Version manifest.json theme.css --repo $FullRepository --title $Version --notes "Claude Paper $Version. Includes matched light and dark modes, Source Han Serif SC Variable typography, SF Mono code, and complete Obsidian styling."
   } else {
     Write-Host "Release $Version already exists. Refreshing its required files..." -ForegroundColor DarkGray
     Invoke-Checked gh release upload $Version manifest.json theme.css --repo $FullRepository --clobber

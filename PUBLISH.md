@@ -18,7 +18,7 @@ The script is safe to run again. Existing repositories, releases, directory entr
 2. Opens GitHub's official browser login if the CLI has not been authorized.
 3. Verifies that the authenticated account is `Law-Of-Cycles`.
 4. Initializes the project repository and pushes `main`.
-5. Creates release `1.0.0` with `manifest.json` and `theme.css` as separate assets.
+5. Reads the version from `manifest.json` and creates or refreshes the matching release with `manifest.json` and `theme.css` as separate assets.
 6. Forks `obsidianmd/obsidian-releases`.
 7. Adds the Claude Paper record to `community-css-themes.json` without reformatting unrelated entries.
 8. Pushes a review branch and opens the official community theme pull request.

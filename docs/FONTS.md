@@ -1,62 +1,48 @@
 # Font strategy
 
-Claude Paper separates interface, headings, body text, and code. This avoids forcing one typeface to do jobs it was not designed for.
+Claude Paper uses one bilingual serif family for the interface and document surface, plus one monospaced family for code. This keeps Chinese and English visually coherent while preserving the precision expected from code.
 
-## Brand reference and licensing
-
-Geist's Anthropic identity case study describes a pairing of **Styrene** and **Tiempos**. Both families are commercially licensed. Claude Paper references their installed family names but does not include, download, or redistribute them.
-
-- Anthropic identity case study: <https://geist.co/work/anthropic>
-- Styrene foundry page: <https://commercialtype.com/catalog/styrene>
-- Tiempos foundry page: <https://klim.co.nz/retail-fonts/tiempos/>
-
-## Default fallback chains
+## Theme defaults
 
 ```css
-/* Interface and headings */
-"Styrene B", "Styrene A", Styrene,
-"Segoe UI Variable", "Segoe UI",
-"Source Han Serif", "思源宋体", "Microsoft YaHei UI", sans-serif;
+/* Interface, headings, editing, and reading */
+"SourceHanSerifSC-VF", "Source Han Serif SC VF", "Source Han Serif VF",
+"Source Han Serif SC", "Source Han Serif", "思源宋体 CN", "思源宋体",
+"Noto Serif CJK SC", "Songti SC", serif;
 
-/* Reading and editing */
-"Tiempos Text", Tiempos, "Source Serif 4", Georgia, "Times New Roman",
-"Source Han Serif", "思源宋体", "Microsoft YaHei", serif;
-
-/* Code */
-"SF Mono", "Cascadia Mono", Consolas,
-"Source Han Serif", "思源宋体", "Microsoft YaHei", monospace;
+/* Inline code, fenced code, Markdown marks, and numeric markers */
+"SF Mono", "SFMono-Regular", "Cascadia Mono", "Cascadia Code",
+Consolas, "Liberation Mono", monospace;
 ```
 
-Font fallback happens per glyph. A Latin-only English face can render the English characters, while Source Han Serif renders Chinese characters on the same line.
+`SourceHanSerifSC-VF` is normally a font filename. CSS selects an installed font by its registered family name, which can vary across packages and operating systems. The aliases above let the same theme match the common registrations without requiring a per-machine edit.
 
-## Why English needed its own fallback
+## Obsidian font overrides
 
-Source Han Serif contains useful Latin glyphs, but it is primarily a pan-CJK family and does not provide the same dedicated italic family expected from an editorial Latin typeface. Markdown emphasis looks more natural when English text can use a true italic face from Tiempos, Source Serif 4, Georgia, or Times New Roman.
+The theme defines only these theme defaults:
 
-Claude Paper keeps synthesized style support enabled for CJK emphasis, because a slanted CJK fallback remains more visible than silently ignoring italic markup.
+```css
+--font-interface-theme: var(--claude-paper-font-serif);
+--font-text-theme: var(--claude-paper-font-serif);
+--font-monospace-theme: var(--claude-paper-font-code);
+```
 
-## Recommended Windows setup
+Obsidian combines them with the choices under **Settings → Appearance → Fonts**. A font selected there therefore remains the final override.
 
-### Already sufficient
+## Italic text
 
-- **Source Han Serif** for Chinese
-- **SF Mono** for code
-- **Georgia** from Windows for English body and italics
-- **Segoe UI** from Windows for interface and headings
+Source Han Serif includes broad Latin and CJK coverage but does not include a dedicated italic family. Markdown emphasis tries Source Serif 4, Source Serif Pro, Georgia, and Times New Roman for true English italics, then falls back to Source Han Serif for Chinese. The regular interface and body remain entirely in Source Han Serif.
 
-### Optional free upgrade
+## Installation check
 
-Install Adobe's open-source **Source Serif 4**, including Roman and Italic variable fonts:
+The Windows installer checks the user and system font registries after copying the theme. Its completion message reports whether a Source Han Serif SC family and SF Mono were detected. Fonts remain external to the project and are never downloaded automatically.
 
-- Project and releases: <https://github.com/adobe-fonts/source-serif>
+After adding or changing a font, fully quit and reopen Obsidian so Electron rebuilds its font list.
 
-For a freely distributed code font on Windows, Cascadia Code includes Cascadia Mono:
+## Upstream projects
 
-- Project and releases: <https://github.com/microsoft/cascadia-code>
+- Source Han Serif: <https://github.com/adobe-fonts/source-han-serif>
+- Source Serif 4: <https://github.com/adobe-fonts/source-serif>
+- Cascadia Code fallback: <https://github.com/microsoft/cascadia-code>
 
-After installing fonts, fully quit and reopen Obsidian so Electron rebuilds its font list.
-
-## Registered family names matter
-
-CSS must use the registered Windows family name, which can differ from a downloaded filename. Open **Settings → Personalization → Fonts**, select the font, and copy its displayed family name. The theme already includes the names seen most often for Source Han Serif and SF Mono.
-
+SF Mono is referenced only by family name and is not redistributed.
